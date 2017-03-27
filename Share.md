@@ -15,6 +15,7 @@ Go hosts-一键科学上网神器
 
 ----
 ### 软件
+Office2016 https://pan.baidu.com/s/1eRDbRQa 提取密码 Skai
 Snipaste-强大的截图软件 https://zh.snipaste.com/  
 Wox-快速搜索、启动神器(需要安装Everything) http://www.getwox.com/  
 Everything http://www.voidtools.com/
