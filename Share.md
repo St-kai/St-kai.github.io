@@ -1,6 +1,6 @@
 ## 资源分享
 ### 浏览器
-* [Chreme](http://www.google.cn/chrome/browser/desktop/index.html)   
+* [Chrome](http://www.google.cn/chrome/browser/desktop/index.html)   
 * [Tampermonkey](http://tampermonkey.net/)（油猴子插件）  
 * [Greasy Fork](https://greasyfork.org/zh-CN/)（脚本）
 ----
