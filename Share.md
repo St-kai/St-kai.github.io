@@ -17,6 +17,7 @@
 
 ----
 ### 软件
+* Prey-防盗追踪软件 https://www.preyproject.com/  
 * Adobe破解器（需自行下载Adobe Creative Cloud） http://pan.baidu.com/s/1ge9BZhD 密码: Skai
 * Office2016 https://pan.baidu.com/s/1eRDbRQa 密码 Skai  
 * Snipaste-强大的截图软件 https://zh.snipaste.com/  
