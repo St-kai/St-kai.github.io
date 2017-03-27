@@ -1,12 +1,12 @@
 ## 资源分享
 ### 浏览器
-* [Chreme](http://www.google.cn/chrome/browser/desktop/index.html)   
+* [Chrome](https://www.google.com/chrome/)   
 * [Tampermonkey](http://tampermonkey.net/)（油猴子插件）  
 * [Greasy Fork](https://greasyfork.org/zh-CN/)（脚本）
 ----
 ### 手机
-* Google套件的正确打开方式 http://opengapps.org/  
-* [TWRP (TeamWin Recovery Project)](https://twrp.me/)-手机刷机神器(第三方Recovery)   
+* Google全家桶的正确打开方式 http://opengapps.org/  
+* TWRP (TeamWin Recovery Project)-手机刷机神器(第三方Recovery) https://twrp.me/   
 * [小米手机TWRP](http://www.miui.com/home.php?mod=space&uid=131633855&do=thread&view=me&from=space)  
 * Go hosts-一键科学上网神器
 (需获取root以及解锁Systerm) https://fir.im/gohosts
