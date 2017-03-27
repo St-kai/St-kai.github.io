@@ -2,9 +2,6 @@
 ### 浏览器
 <<<<<<< HEAD
 * [Chrome](https://www.google.com/chrome/)   
-=======
-* [Chrome](http://www.google.cn/chrome/browser/desktop/index.html)   
->>>>>>> origin/master
 * [Tampermonkey](http://tampermonkey.net/)（油猴子插件）  
 * [Greasy Fork](https://greasyfork.org/zh-CN/)（脚本）
 ----
