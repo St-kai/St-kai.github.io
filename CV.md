@@ -1,5 +1,6 @@
 ## St.kai的求职简历
 E-mail: St.kai@live.cn  
+Telegram:[Stkai](https://t.me/Stkai)
 WeChat: St-kai  
 2020应届 | 求职意向：Java开发工程师  
 期望的工作地点：北京 上海 济南 杭州
