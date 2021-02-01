@@ -9,15 +9,22 @@ categories:
 我在Linux上一直使用uGet作为下载器下载文件，但是感觉下载速度不如aria2，于是想用上aria2插件。
 *** 
 首先安装aria2、uGet  
-`sudo pacman -S aria2 uget`  
+```
+# pacman -S aria2 uget
+```
 安装uget-integrator插件  
-`yay -S uget-integrator`  
+```
+# yay -S uget-integrator
+```
 安装浏览器对应的链接工具  
 Chrome  
-`yay -S uget-integrator-chrome`  
+```
+# yay -S uget-integrator-chrome` 
+```
 Firefox  
-`yay -S uget-integrator-firefox`
-
+```
+# yay -S uget-integrator-firefox
+```
 浏览器安装下载插件 uGet Integration  
 [Chrome](https://chrome.google.com/webstore/detail/uget-integration/efjgjleilhflffpbnkaofpmdnajdpepi)  
 [Firefox](https://addons.mozilla.org/en-US/firefox/addon/ugetintegration/)  
