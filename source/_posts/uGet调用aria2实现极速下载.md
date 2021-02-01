@@ -1,7 +1,10 @@
 ---
 title: uGet调用aria2实现极速下载
 date: 2020-03-07 00:00:28
+updated: 2020-03-07 00:00:28
 tags: [Linux, uGet, Downloader]
+categories:
+- [Linux]
 ---
 我在Linux上一直使用uGet作为下载器下载文件，但是感觉下载速度不如aria2，于是想用上aria2插件。
 *** 
