@@ -3,6 +3,7 @@ title: Howdy Linu上的"Windows Hello"
 date: 2021-01-26 23:39:55
 updated: 2021-01-29 23:27:00
 tags: [Howdy, Linux]
+categories: [Linux, Howdy]
 ---
 我电脑上一直用着简单的数字密码，输入起来比较方便，但是这样太不安全了，于是换成了大小写字母、数字、特殊字符组成的混合密码，但是每次解锁屏幕或者执行需要root权限的命令时输入复杂密码又觉得太过于麻烦，于是想到了Windows Hello,小新PRO13是有红外模块的,可以使用Window Hello,Linux上该如何解决呢？🔍搜索一番发现了一款叫做Howdy,可以使用人脸进行身份验证。
 ## 安装
