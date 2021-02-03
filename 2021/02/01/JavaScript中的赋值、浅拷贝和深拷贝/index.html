@@ -1,0 +1,278 @@
+<!doctype html>
+<html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>JavaScript中的赋值、浅拷贝和深拷贝 - St.kai‘s blog</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="St.kai‘s blog"><meta name="msapplication-TileImage" content="/img/favicon.svg"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="St.kai‘s blog"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="description" content="前两天用对Vue做了一个页面，内用是表格，点击表格的编辑按钮弹出模态框可以进行编辑。      操作 姓名 性别 出生日期 身份证号 data    编辑 张三 男 1970-01-01 01234567 data[0]   编辑 李四 男 1980-01-01 12345670 data[1]   编辑 王五 女 1990-01-01 23456701 data[2]   点击编辑后弹出模态框将"><meta property="og:type" content="blog"><meta property="og:title" content="JavaScript中的赋值、浅拷贝和深拷贝"><meta property="og:url" content="https://github.com/Stkai/Stkai.github.io/2021/02/01/JavaScript%E4%B8%AD%E7%9A%84%E8%B5%8B%E5%80%BC%E3%80%81%E6%B5%85%E6%8B%B7%E8%B4%9D%E5%92%8C%E6%B7%B1%E6%8B%B7%E8%B4%9D/"><meta property="og:site_name" content="St.kai‘s blog"><meta property="og:description" content="前两天用对Vue做了一个页面，内用是表格，点击表格的编辑按钮弹出模态框可以进行编辑。      操作 姓名 性别 出生日期 身份证号 data    编辑 张三 男 1970-01-01 01234567 data[0]   编辑 李四 男 1980-01-01 12345670 data[1]   编辑 王五 女 1990-01-01 23456701 data[2]   点击编辑后弹出模态框将"><meta property="og:locale" content="zh_CN"><meta property="og:image" content="https://github.com/img/og_image.png"><meta property="article:published_time" content="2021-02-01T15:38:35.000Z"><meta property="article:modified_time" content="2021-02-01T15:38:35.000Z"><meta property="article:author" content="St.kai"><meta property="article:tag" content="JavaScript"><meta property="article:tag" content="Copy"><meta property="twitter:card" content="summary"><meta property="twitter:image" content="/img/og_image.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://github.com/Stkai/Stkai.github.io/2021/02/01/JavaScript%E4%B8%AD%E7%9A%84%E8%B5%8B%E5%80%BC%E3%80%81%E6%B5%85%E6%8B%B7%E8%B4%9D%E5%92%8C%E6%B7%B1%E6%8B%B7%E8%B4%9D/"},"headline":"St.kai‘s blog","image":["https://github.com/img/og_image.png"],"datePublished":"2021-02-01T15:38:35.000Z","dateModified":"2021-02-01T15:38:35.000Z","author":{"@type":"Person","name":"St.kai"},"description":"前两天用对Vue做了一个页面，内用是表格，点击表格的编辑按钮弹出模态框可以进行编辑。      操作 姓名 性别 出生日期 身份证号 data    编辑 张三 男 1970-01-01 01234567 data[0]   编辑 李四 男 1980-01-01 12345670 data[1]   编辑 王五 女 1990-01-01 23456701 data[2]   点击编辑后弹出模态框将"}</script><link rel="canonical" href="https://github.com/Stkai/Stkai.github.io/2021/02/01/JavaScript%E4%B8%AD%E7%9A%84%E8%B5%8B%E5%80%BC%E3%80%81%E6%B5%85%E6%8B%B7%E8%B4%9D%E5%92%8C%E6%B7%B1%E6%8B%B7%E8%B4%9D/"><link rel="icon" href="/img/favicon.svg"><link rel="stylesheet" href="https://cdnjs.loli.net/ajax/libs/font-awesome/5.12.0/css/all.min.css"><link rel="stylesheet" href="https://cdnjs.loli.net/ajax/libs/highlight.js/9.12.0/styles/atom-one-light.min.css"><link rel="stylesheet" href="https://fonts.loli.net/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link rel="stylesheet" href="/css/default.css"><style>body>.footer,body>.navbar,body>.section{opacity:0}</style><!--!--><!--!--><!--!--><!--!--><link rel="stylesheet" href="https://cdnjs.loli.net/ajax/libs/cookieconsent/3.1.1/cookieconsent.min.css"><link rel="stylesheet" href="https://cdnjs.loli.net/ajax/libs/lightgallery/1.6.8/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdnjs.loli.net/ajax/libs/justifiedGallery/3.7.0/css/justifiedGallery.min.css"><!--!--><!--!--><script src="https://cdnjs.loli.net/ajax/libs/pace/1.0.2/pace.min.js"></script><!--!--><!--!--><meta name="generator" content="Hexo 5.3.0"></head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/img/logo.svg" alt="St.kai‘s blog" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">Home</a><a class="navbar-item" href="/archives">Archives</a><a class="navbar-item" href="/categories">Categories</a><a class="navbar-item" href="/tags">Tags</a><a class="navbar-item" href="/about">About</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus"><i class="fab fa-github"></i></a><a class="navbar-item search" title="搜索" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item"><time dateTime="2021-02-01T15:38:35.000Z" title="2021-02-01T15:38:35.000Z">2021-02-01</time>发表</span><span class="level-item"><time dateTime="2021-02-01T15:38:35.000Z" title="2021-02-01T15:38:35.000Z">2021-02-01</time>更新</span><span class="level-item"><a class="link-muted" href="/categories/JavaScript/">JavaScript</a></span><span class="level-item">7 分钟读完 (大约977个字)</span></div></div><h1 class="title is-3 is-size-4-mobile">JavaScript中的赋值、浅拷贝和深拷贝</h1><div class="content"><p>前两天用对Vue做了一个页面，内用是表格，点击表格的编辑按钮弹出模态框可以进行编辑。  </p>
+<table>
+<thead>
+<tr>
+<th>操作</th>
+<th>姓名</th>
+<th>性别</th>
+<th>出生日期</th>
+<th>身份证号</th>
+<th>data</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><font color="#3273dc">编辑</font></td>
+<td>张三</td>
+<td>男</td>
+<td>1970-01-01</td>
+<td>01234567</td>
+<td>data[0]</td>
+</tr>
+<tr>
+<td><font color="#3273dc">编辑</font></td>
+<td>李四</td>
+<td>男</td>
+<td>1980-01-01</td>
+<td>12345670</td>
+<td>data[1]</td>
+</tr>
+<tr>
+<td><font color="#3273dc">编辑</font></td>
+<td>王五</td>
+<td>女</td>
+<td>1990-01-01</td>
+<td>23456701</td>
+<td>data[2]</td>
+</tr>
+</tbody></table>
+<p>点击编辑后弹出模态框<br>将data[0]赋值给person</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">let person &#x3D; data[0]</span><br></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th>person</th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>姓名</td>
+<td>张三</td>
+</tr>
+<tr>
+<td>性别</td>
+<td>男</td>
+</tr>
+<tr>
+<td>出生日期</td>
+<td>1970-01-01</td>
+</tr>
+<tr>
+<td>身份证号</td>
+<td>0123457</td>
+</tr>
+</tbody></table>
+<p>编辑后弹窗的内容发现表格上的内容也会同步改变，难道是法外狂徒在捣鬼？  </p>
+<hr>
+<p>首先让我们回顾一下JavaScript的数据类型</p>
+<h2 id="JavaScript的数据类型"><a href="#JavaScript的数据类型" class="headerlink" title="JavaScript的数据类型"></a>JavaScript的数据类型</h2><p>JavaScrit中共有7种基本数据类型（原始数据类型）和对象  </p>
+<ul>
+<li>基本类型<ul>
+<li><code>Undefined</code></li>
+<li><code>Null</code></li>
+<li><code>Boolean</code></li>
+<li><code>String</code></li>
+<li><code>Symbol</code></li>
+<li>Numeric<ul>
+<li><code>Number</code></li>
+<li><code>BigInt</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>对象类型<ul>
+<li><code>Object</code></li>
+<li><code>Funcion</code></li>
+<li><code>Date</code></li>
+<li><code>JSON</code></li>
+<li><code>Array</code></li>
+<li><code>Map</code></li>
+<li>……  </li>
+</ul>
+</li>
+</ul>
+<p>JavaScript中所有的基本类型只能替换，不能改变。</p>
+<h2 id="Assignment赋值"><a href="#Assignment赋值" class="headerlink" title="Assignment赋值"></a><code>Assignment</code>赋值</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">let x &#x3D; 3;</span><br><span class="line">let y &#x3D; x;</span><br><span class="line">y + 1;</span><br><span class="line"></span><br><span class="line">console.log(x);</span><br><span class="line">console.log(y);</span><br><span class="line">&#x2F;&#x2F; expected output: 3</span><br><span class="line">&#x2F;&#x2F; expected output: 4</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">let data &#x3D; [&#123; name: &#39;zhangsan&#39;, sex: 1 &#125;];</span><br><span class="line">let person &#x3D; data[0];</span><br><span class="line">person.name &#x3D; &#39;wangwu&#39;;</span><br><span class="line"></span><br><span class="line">console.log(data[0]);</span><br><span class="line">&#x2F;&#x2F; expected output: &#123; name: &#39;wangwu&#39;, sex: 1 &#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>这是因为虽然<code>data[0]</code>和<code>person</code>的名称不同，但是却指向了同一个内存地址。  </p>
+<table>
+<thead>
+<tr>
+<th>变量</th>
+<th></th>
+<th>内存地址</th>
+<th></th>
+<th>内存空间</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>data[0]<br>person</td>
+<td>&rarr;<br>&rarr;</td>
+<td>0x11FF00</td>
+<td>&rarr;</td>
+<td>{ name: ‘wangwu’, sex: 1 }</td>
+</tr>
+</tbody></table>
+<p>data和person既不是相同的变量名也不是相同的数据类型，但是data[0]和person他们指向了相同的内存地址，所以改变person时，data[0]也会同步改变。<br>那如何只改变person而不改变data[0]呢？我们把两个data[0]复制一份给person让他们存储在不同的内存块中不就可以了，这就是拷贝。拷贝分为浅拷贝和深拷贝。</p>
+<h2 id="浅拷贝-Shallow-Copy"><a href="#浅拷贝-Shallow-Copy" class="headerlink" title="浅拷贝(Shallow Copy)"></a>浅拷贝(Shallow Copy)</h2><p>浅拷贝是指将对象内的原始数据类型复制一份，引用类型复制内存地址。<br>我们新建一个对象</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">let obj1 &#x3D; &#123;srt:&#39;str&#39; , arr:[1,2,3]&#125;</span><br></pre></td></tr></table></figure>
+<p>拷贝前  </p>
+<table>
+<thead>
+<tr>
+<th>obj</th>
+<th></th>
+<th>内存区域A</th>
+<th></th>
+<th>内存区域B</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>obj1.str</td>
+<td>&rarr;</td>
+<td>‘str’</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>obj1.arr</td>
+<td>&rarr;</td>
+<td>0x11FF00</td>
+<td>&rarr;</td>
+<td>[1,2,3]</td>
+</tr>
+</tbody></table>
+<p>将<code>obj1</code>浅拷贝之到<code>obj2</code>之后  </p>
+<table>
+<thead>
+<tr>
+<th>obj</th>
+<th></th>
+<th>内存区域A</th>
+<th></th>
+<th>内存区域B</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>obj1.str</td>
+<td>&rarr;</td>
+<td>‘str’</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>obj1.arr</td>
+<td>&rarr;</td>
+<td>0x11FF00</td>
+<td>&rarr;</td>
+<td>[1,2,3]</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>obj2.str</td>
+<td>&rarr;</td>
+<td>‘str’</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>obj2.str</td>
+<td>&rarr;</td>
+<td>0x11FF00</td>
+<td>↗</td>
+<td></td>
+</tr>
+</tbody></table>
+<h3 id="浅拷贝的方式"><a href="#浅拷贝的方式" class="headerlink" title="浅拷贝的方式"></a>浅拷贝的方式</h3><h4 id="1-Oject-assign"><a href="#1-Oject-assign" class="headerlink" title="1.Oject.assign()"></a>1.<code>Oject.assign()</code></h4><p><code>Object.assign()</code>可以将一个或多个源对象拷贝给目标对象并返回目标对象<br>语法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Object.assign(target, sources)</span><br></pre></td></tr></table></figure>
+<h4 id="2-展开语法-Spread-syntax"><a href="#2-展开语法-Spread-syntax" class="headerlink" title="2.展开语法(Spread syntax)"></a>2.展开语法(Spread syntax)</h4><ul>
+<li>对象拷贝  </li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">let objClone &#x3D; &#123; ...obj &#125;;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>数组拷贝  </li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">let newArr &#x3D; [...oldArr];</span><br></pre></td></tr></table></figure>
+<h4 id="3-数组分割Array-prototype-slice"><a href="#3-数组分割Array-prototype-slice" class="headerlink" title="3.数组分割Array.prototype.slice()"></a>3.数组分割<code>Array.prototype.slice()</code></h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">let newArray &#x3D; oldArray.slice([begin[, end]])</span><br></pre></td></tr></table></figure>
+<h4 id="4-数组合并Array-prototype-concat"><a href="#4-数组合并Array-prototype-concat" class="headerlink" title="4. 数组合并Array.prototype.concat()"></a>4. 数组合并<code>Array.prototype.concat()</code></h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">let newArray &#x3D; oldArray.concat([value1[, ...[, valueN]]])</span><br></pre></td></tr></table></figure>
+<p>等同于</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">let newArray &#x3D; [...oldArray, ...value1, ...]</span><br></pre></td></tr></table></figure>
+<p>数组的分割和合并首先会创建一个新的数组，所以也就对原来的数组完成了拷贝。</p>
+<h2 id="深拷贝-Deep-Copy"><a href="#深拷贝-Deep-Copy" class="headerlink" title="深拷贝(Deep Copy)"></a>深拷贝(Deep Copy)</h2><p>深拷贝将是将原来的对象递归赋值，首先创建一个新的对象，然后将原来对象的内容递归复制到新的对象，原对象的引用类型也会复制一份。  </p>
+<h4 id="1-JSON-parse-JSON-stringify-object"><a href="#1-JSON-parse-JSON-stringify-object" class="headerlink" title="1. JSON.parse(JSON.stringify(object))"></a>1. JSON.parse(JSON.stringify(object))</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">let newObj &#x3D; JSON.parse(JSON.stringify(oldObj))</span><br></pre></td></tr></table></figure>
+<p>缺点:  </p>
+<ul>
+<li><code>undefinde</code>、<code>function</code>、<code>symbol</code> 在序列化过程中会被忽略</li>
+<li><code>Date</code>在序列化过程中会被转为字符串（调用了toJSON())</li>
+<li>NaN 和 Infinity 格式的数值及 null 都会被当做 null</li>
+<li>循环引用的对象会形成无限循环然后报错  </li>
+</ul>
+<h4 id="2-Node-js利用v8引擎的序列化和反序列化接口"><a href="#2-Node-js利用v8引擎的序列化和反序列化接口" class="headerlink" title="2. Node.js利用v8引擎的序列化和反序列化接口"></a>2. Node.js利用v8引擎的序列化和反序列化接口</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">const v8 &#x3D; require(&#39;v8&#39;);</span><br><span class="line">let newObj &#x3D; v8.deserialize(v8.serialize(oldObj))</span><br></pre></td></tr></table></figure>
+<h4 id="3-第三方JS库"><a href="#3-第三方JS库" class="headerlink" title="3.第三方JS库"></a>3.第三方JS库</h4><ul>
+<li><a target="_blank" rel="noopener" href="https://lodash.com/docs#cloneDeep">Lodash</a></li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lodash.clonedeep(objects)</span><br></pre></td></tr></table></figure>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://docs.angularjs.org/api/ng/function/angular.copy">AngularJS</a></li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">angular.copy(source, [destination])</span><br></pre></td></tr></table></figure>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://api.jquery.com/jquery.extend/#jQuery-extend-deep-target-object1-objectN">jQuery</a></li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jQuery.extend( true, target, object1 [, objectN ] )</span><br></pre></td></tr></table></figure>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ol>
+<li> <a target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures">JavaScript data types and data structures | MDN</a></li>
+<li><a target="_blank" rel="noopener" href="https://tc39.es/ecma262/">ECMA-262</a></li>
+<li><a target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax">Spread syntax (…) | MDN</a></li>
+<li><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/122102/what-is-the-most-efficient-way-to-deep-clone-an-object-in-javascript/10916838#10916838">What is the most efficient way to deep clone an object in JavaScript? - Stack Overflow</a></li>
+</ol>
+</div><div class="article-licensing box"><div class="licensing-title"><p>JavaScript中的赋值、浅拷贝和深拷贝</p><p><a href="https://github.com/Stkai/Stkai.github.io/2021/02/01/JavaScript中的赋值、浅拷贝和深拷贝/">https://github.com/Stkai/Stkai.github.io/2021/02/01/JavaScript中的赋值、浅拷贝和深拷贝/</a></p></div><div class="licensing-meta level is-mobile"><div class="level-left"><div class="level-item is-narrow"><div><h6>作者</h6><p>St.kai</p></div></div><div class="level-item is-narrow"><div><h6>发布于</h6><p>2021-02-01</p></div></div><div class="level-item is-narrow"><div><h6>更新于</h6><p>2021-02-01</p></div></div><div class="level-item is-narrow"><div><h6>许可协议</h6><p><a class="icon" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a><a class="icon" rel="noopener" target="_blank" title="Attribution" href="https://creativecommons.org/licenses/by-nc-sa/4.0/"><i class="fab fa-creative-commons-by"></i></a><a class="icon" rel="noopener" target="_blank" title="Noncommercial" href="https://creativecommons.org/licenses/by-nc-sa/4.0/"><i class="fab fa-creative-commons-nc"></i></a><a class="icon" rel="noopener" target="_blank" title="ShareAlike" href="https://creativecommons.org/licenses/by-nc-sa/4.0/"><i class="fab fa-creative-commons-sa"></i></a></p></div></div></div></div></div><div class="article-tags is-size-7 mb-4"><span class="mr-2">#</span><a class="link-muted mr-2" rel="tag" href="/tags/JavaScript/">JavaScript</a><a class="link-muted mr-2" rel="tag" href="/tags/Copy/">Copy</a></div><!--!--></article></div><!--!--><nav class="post-navigation mt-4 level is-mobile"><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/2021/01/26/Howdy-Linu%E4%B8%8A%E7%9A%84-Windows-Hello/"><span class="level-item">Howdy Linu上的&quot;Windows Hello&quot;</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><!--!--></div><div class="column column-left is-4-tablet is-4-desktop is-4-widescreen  order-1"><div class="card widget" data-type="profile"><div class="card-content"><nav class="level"><div class="level-item has-text-centered flex-shrink-1"><div><figure class="image is-128x128 mx-auto mb-2"><img class="avatar" src="/img/avatar.png" alt="St.kai"></figure><p class="title is-size-4 is-block" style="line-height:inherit;">St.kai</p><p class="is-size-6 is-block">O ever youthful, O ever weeping.</p></div></div></nav><nav class="level is-mobile"><div class="level-item has-text-centered is-marginless"><div><p class="heading">文章</p><a href="/archives"><p class="title">4</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">分类</p><a href="/categories"><p class="title">4</p></a></div></div><div class="level-item has-text-centered is-marginless"><div><p class="heading">标签</p><a href="/tags"><p class="title">8</p></a></div></div></nav><div class="level"><a class="level-item button is-primary is-rounded" href="https://github.com/Stkai" target="_blank" rel="noopener">关注我</a></div><div class="level is-mobile"><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Telegram" href="https://t.me/Stkai"><i class="fab fa-telegram"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Github" href="https://github.com/Stkai"><i class="fab fa-github"></i></a><a class="level-item button is-transparent is-marginless" target="_blank" rel="noopener" title="Twitter" href="https://twitter.com/Stkai_Bai"><i class="fab fa-twitter"></i></a></div></div></div><!--!--><div class="card widget" data-type="links"><div class="card-content"><div class="menu"><h3 class="menu-label">链接</h3><ul class="menu-list"><li><a class="level is-mobile" href="https://hexo.io" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">Hexo</span></span><span class="level-right"><span class="level-item tag">hexo.io</span></span></a></li><li><a class="level is-mobile" href="https://bulma.io" target="_blank" rel="noopener"><span class="level-left"><span class="level-item">Bulma</span></span><span class="level-right"><span class="level-item tag">bulma.io</span></span></a></li></ul></div></div></div><div class="card widget" data-type="categories"><div class="card-content"><div class="menu"><h3 class="menu-label">分类</h3><ul class="menu-list"><li><a class="level is-mobile" href="/categories/JavaScript/"><span class="level-start"><span class="level-item">JavaScript</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/Linux/"><span class="level-start"><span class="level-item">Linux</span></span><span class="level-end"><span class="level-item tag">3</span></span></a><ul><li><a class="level is-mobile" href="/categories/Linux/Howdy/"><span class="level-start"><span class="level-item">Howdy</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/Linux/unzip/"><span class="level-start"><span class="level-item">unzip</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li></ul></div></div></div><div class="card widget" data-type="recent-posts"><div class="card-content"><h3 class="menu-label">最新文章</h3><article class="media"><div class="media-content"><p class="date"><time dateTime="2021-02-01T15:38:35.000Z">2021-02-01</time></p><p class="title"><a href="/2021/02/01/JavaScript%E4%B8%AD%E7%9A%84%E8%B5%8B%E5%80%BC%E3%80%81%E6%B5%85%E6%8B%B7%E8%B4%9D%E5%92%8C%E6%B7%B1%E6%8B%B7%E8%B4%9D/">JavaScript中的赋值、浅拷贝和深拷贝</a></p><p class="categories"><a href="/categories/JavaScript/">JavaScript</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2021-01-26T15:39:55.000Z">2021-01-26</time></p><p class="title"><a href="/2021/01/26/Howdy-Linu%E4%B8%8A%E7%9A%84-Windows-Hello/">Howdy Linu上的&quot;Windows Hello&quot;</a></p><p class="categories"><a href="/categories/Linux/">Linux</a> / <a href="/categories/Linux/Howdy/">Howdy</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2020-03-16T03:46:41.000Z">2020-03-16</time></p><p class="title"><a href="/2020/03/16/unzip%E8%A7%A3%E5%86%B3%E4%B8%AD%E6%96%87%E8%B7%AF%E5%BE%84%E4%B9%B1%E7%A0%81%E9%97%AE%E9%A2%98/">unzip解决中文路径乱码问题</a></p><p class="categories"><a href="/categories/Linux/">Linux</a> / <a href="/categories/Linux/unzip/">unzip</a></p></div></article><article class="media"><div class="media-content"><p class="date"><time dateTime="2020-03-06T16:00:28.000Z">2020-03-07</time></p><p class="title"><a href="/2020/03/07/uGet%E8%B0%83%E7%94%A8aria2%E5%AE%9E%E7%8E%B0%E6%9E%81%E9%80%9F%E4%B8%8B%E8%BD%BD/">uGet调用aria2实现极速下载</a></p><p class="categories"><a href="/categories/Linux/">Linux</a></p></div></article></div></div><div class="card widget" data-type="archives"><div class="card-content"><div class="menu"><h3 class="menu-label">归档</h3><ul class="menu-list"><li><a class="level is-mobile" href="/archives/2021/02/"><span class="level-start"><span class="level-item">二月 2021</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2021/01/"><span class="level-start"><span class="level-item">一月 2021</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/archives/2020/03/"><span class="level-start"><span class="level-item">三月 2020</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li></ul></div></div></div><div class="card widget" data-type="tags"><div class="card-content"><div class="menu"><h3 class="menu-label">标签</h3><div class="field is-grouped is-grouped-multiline"><div class="control"><a class="tags has-addons" href="/tags/Copy/"><span class="tag">Copy</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Downloader/"><span class="tag">Downloader</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Howdy/"><span class="tag">Howdy</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/JavaScript/"><span class="tag">JavaScript</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Linux/"><span class="tag">Linux</span><span class="tag">3</span></a></div><div class="control"><a class="tags has-addons" href="/tags/Mojibake/"><span class="tag">Mojibake</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/uGet/"><span class="tag">uGet</span><span class="tag">1</span></a></div><div class="control"><a class="tags has-addons" href="/tags/unzip/"><span class="tag">unzip</span><span class="tag">1</span></a></div></div></div></div></div></div><!--!--></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="/img/logo.svg" alt="St.kai‘s blog" height="28"></a><p class="is-size-7"><span>&copy; 2021 St.kai</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdnjs.loli.net/ajax/libs/jquery/3.3.1/jquery.min.js"></script><script src="https://cdnjs.loli.net/ajax/libs/moment.js/2.22.2/moment-with-locales.min.js"></script><script src="https://cdnjs.loli.net/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" async></script><script>moment.locale("zh-CN");</script><script>var IcarusThemeSettings = {
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script src="/js/column.js"></script><script src="/js/animation.js"></script><a id="back-to-top" title="回到顶端" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script src="/js/back_to_top.js" defer></script><!--!--><!--!--><!--!--><script src="https://cdnjs.loli.net/ajax/libs/cookieconsent/3.1.1/cookieconsent.min.js" defer></script><script>window.addEventListener("load", () => {
+      window.cookieconsent.initialise({
+        type: "info",
+        theme: "edgeless",
+        static: false,
+        position: "bottom-left",
+        content: {
+          message: "此网站使用Cookie来改善您的体验。",
+          dismiss: "知道了！",
+          allow: "允许使用Cookie",
+          deny: "拒绝",
+          link: "了解更多",
+          policy: "Cookie政策",
+          href: "https://www.cookiesandyou.com/",
+        },
+        palette: {
+          popup: {
+            background: "#edeff5",
+            text: "#838391"
+          },
+          button: {
+            background: "#4b81e8"
+          },
+        },
+      });
+    });</script><script src="https://cdnjs.loli.net/ajax/libs/lightgallery/1.6.8/js/lightgallery.min.js" defer></script><script src="https://cdnjs.loli.net/ajax/libs/justifiedGallery/3.7.0/js/jquery.justifiedGallery.min.js" defer></script><script>window.addEventListener("load", () => {
+            if (typeof $.fn.lightGallery === 'function') {
+                $('.article').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof $.fn.justifiedGallery === 'function') {
+                if ($('.justified-gallery > p > .gallery-item').length) {
+                    $('.justified-gallery > p > .gallery-item').unwrap();
+                }
+                $('.justified-gallery').justifiedGallery();
+            }
+        });</script><!--!--><!--!--><!--!--><!--!--><!--!--><script src="/js/main.js" defer></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="想要查找什么..."></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script src="/js/insight.js" defer></script><script>document.addEventListener('DOMContentLoaded', function () {
+            loadInsight({"contentUrl":"/content.json"}, {"hint":"想要查找什么...","untitled":"(无标题)","posts":"文章","pages":"页面","categories":"分类","tags":"标签"});
+        });</script></body></html>
